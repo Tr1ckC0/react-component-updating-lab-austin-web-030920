@@ -6,7 +6,7 @@ class Timer extends Component {
     this.timer = React.createRef();
     this.state = {
       time: 0,
-      color: "#" + Math.floor(Math.random() * 16777215).toString(16)
+      color: "#" + Math.floor(Math.random() * 16777215).toString(16),
     };
   }
 
@@ -17,6 +17,20 @@ class Timer extends Component {
       this.clockTick,
       this.props.updateInterval * 1000
     );
+  }
+
+  componentDidUpdate() {
+    this.timer.current.style.backgroundColor =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+    // let randNum = Math.random();
+    // randNum > 0.5 && this.timer.current.classList.toggle("hidden");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.time === nextState.time) {
+      return false;
+    }
+    return true;
   }
 
   componentWillUnmount() {
@@ -36,8 +50,8 @@ class Timer extends Component {
   }
 
   clockTick = () => {
-    this.setState(prevState => ({
-      time: prevState.time + this.props.updateInterval
+    this.setState((prevState) => ({
+      time: prevState.time + this.props.updateInterval,
     }));
   };
 
